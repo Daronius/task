@@ -7,7 +7,9 @@ namespace Task {
     class main {
         public static void Main() {
             string[] prefixes = { "http://localhost:8080/" };
-            WebServer.SimpleListenerExample(prefixes);
+            new WebServer(prefixes);
+            while(true) {
+            }
         }
     }
 }
