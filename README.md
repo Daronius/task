@@ -1,2 +1,2 @@
 # task
-Creating a TaskManager
+Creating a TaskManager for a Company
