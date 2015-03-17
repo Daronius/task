@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Task.main</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="main.cs" />
   </ItemGroup>

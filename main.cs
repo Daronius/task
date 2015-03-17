@@ -7,12 +7,6 @@ namespace Task {
     class main {
         public static void Main() {
             Console.WriteLine("Hello Task!");
-<<<<<<< .mine
-
-            Console.WriteLine("Fucking Shit");
-=======
-            Console.WriteLine("We will create you.");
->>>>>>> .r5
         }
     }
 }
