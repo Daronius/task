@@ -6,7 +6,8 @@ using System.Text;
 namespace Task {
     class main {
         public static void Main() {
-            Console.WriteLine("Hello Task!");
+            string[] prefixes = { "http://localhost:8080/" };
+            WebServer.SimpleListenerExample(prefixes);
         }
     }
 }
