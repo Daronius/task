@@ -52,6 +52,7 @@
     <StartupObject>Task.main</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Log.cs" />
     <Compile Include="main.cs" />
     <Compile Include="WebServer.cs" />
   </ItemGroup>

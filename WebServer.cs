@@ -6,6 +6,7 @@ using System.Net;
 
 namespace Task {
     class WebServer {
+        Log log = Log.getInstance();
         HttpListener listener;
 
         public WebServer(string[] prefixes) {
@@ -19,8 +20,11 @@ namespace Task {
             listener = new HttpListener();
             foreach(string s in prefixes) {
                 listener.Prefixes.Add(s);
+                log.debugWrite("[WebServer] listening to " + s);
             }
             listener.Start();
+
+            log.debugWrite("[WebServer] Listening");
 
             listener.BeginGetContext(new AsyncCallback(ListenerCallback), listener);
         }
