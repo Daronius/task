@@ -6,7 +6,7 @@ using System.Text;
 namespace Task {
     class main {
         public static void Main() {
-            string[] prefixes = { "http://localhost:8080/" };
+            string[] prefixes = { "http://*:8080/" };
             new WebServer(prefixes);
             while(true) {
             }

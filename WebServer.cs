@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,29 +11,29 @@ namespace Task {
         HttpListener listener;
 
         public WebServer(string[] prefixes) {
-            if(!HttpListener.IsSupported) {
-                Console.WriteLine("[WebServer] Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
-                return;
+            try {
+                if(!HttpListener.IsSupported) {
+                    log.debugWrite("[WebServer] Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
+                    return;
+                }
+                if(prefixes == null || prefixes.Length == 0)
+                    throw new ArgumentException("missing prefixes");
+
+                listener = new HttpListener();
+
+                foreach(string s in prefixes) {
+                    listener.Prefixes.Add(s);
+                    log.debugWrite("[WebServer] listen on " + s);
+                }
+
+                listener.Start();
+                log.debugWrite("[WebServer] Listening");
+
+                listener.BeginGetContext(new AsyncCallback(ListenerCallback), listener);
             }
-            if(prefixes == null || prefixes.Length == 0)
-                throw new ArgumentException("missing prefixes");
-
-            listener = new HttpListener();
-            foreach(string s in prefixes) {
-                listener.Prefixes.Add(s);
-                log.debugWrite("[WebServer] listening to " + s);
+            catch(Exception e) {
+                log.debugWrite("[WebServer] " + e.ToString());
             }
-            listener.Start();
-
-            log.debugWrite("[WebServer] Listening");
-
-            listener.BeginGetContext(new AsyncCallback(ListenerCallback), listener);
-        }
-
-        private string getResponse() {
-            string response;
-            response = "<HTML><HEAD><TITLE>WebServer</TITLE></HEAD><BODY><b>Hello</b> Task!</BODY></HTML>";
-            return response;
         }
 
         private void ListenerCallback(IAsyncResult Result) {
@@ -41,10 +42,10 @@ namespace Task {
                 HttpListenerRequest request = context.Request;
                 HttpListenerResponse response = context.Response;
 
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(getResponse());
+                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(createResponse());
                 response.ContentLength64 = buffer.Length;
 
-                System.IO.Stream output = response.OutputStream;
+                Stream output = response.OutputStream;
                 output.Write(buffer, 0, buffer.Length);
                 output.Close();
             }
@@ -57,6 +58,12 @@ namespace Task {
             catch(InvalidOperationException eR) {
                 Console.WriteLine("[WebServer]" + eR.ToString());
             }
+        }
+
+        private string createResponse() {
+            string response;
+            response = "<HTML><HEAD><TITLE>WebServer</TITLE></HEAD><BODY><b>Hello</b> Task!</BODY></HTML>";
+            return response;
         }
 
         ~WebServer() {
